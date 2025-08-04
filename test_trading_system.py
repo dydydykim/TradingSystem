@@ -24,11 +24,13 @@ def trading_system():
     return trading_system
 
 
-def test_basic_function_select_broker(trading_system):
-    trading_system.select_stock_broker("Kiwer")
+def test_basic_function_select_broker(trading_system, mocker: MockerFixture):
+    driver: KiwerDriver = mocker.Mock()
+    trading_system.select_stock_broker("Kiwer", driver)
     assert trading_system.get_stock_broker() == "Kiwer"
 
-    trading_system.select_stock_broker("Nemo")
+    driver: NemoDriver = mocker.Mock()
+    trading_system.select_stock_broker("Nemo", driver)
     assert trading_system.get_stock_broker() == "Nemo"
 
 
@@ -75,7 +77,7 @@ def test_basic_function_current_price(capsys, trading_system, mocker: MockerFixt
     driver: KiwerDriver = mocker.Mock()
     driver.get_price.return_value = 100
     trading_system.select_stock_broker("Kiwer", driver)
-    price = trading_system.current_price("1234")
+    price = trading_system.get_price("1234")
     assert price == 100
 
 
@@ -88,6 +90,7 @@ def test_buy_called_on_three_price_increase(mocker):
     ats.buy_nice_timing("1234")
 
     buy_mock.assert_called_once()
+
 
 def test_buy_not_called_if_price_not_increasing(mocker):
     buy_mock = mocker.patch('auto_trading_system.AutoTradingSystem.buy')
