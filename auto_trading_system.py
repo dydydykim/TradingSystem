@@ -2,8 +2,9 @@ class AutoTradingSystem:
     def __init__(self):
         self._broker_name = ""
 
-    def select_stock_broker(self, name):
+    def select_stock_broker(self, name, driver):
         self._broker_name = name
+        self._driver = driver
 
     def login(self, name, password):
         print("test login success")
