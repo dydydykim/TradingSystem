@@ -87,6 +87,7 @@ def test_buy_called_on_three_price_increase(mocker):
 
     buy_mock.assert_called_once()
 
+
 def test_buy_not_called_if_price_not_increasing(mocker):
     buy_mock = mocker.patch('auto_trading_system.AutoTradingSystem.buy')
     ats = AutoTradingSystem()
@@ -96,3 +97,27 @@ def test_buy_not_called_if_price_not_increasing(mocker):
     ats.buy_nice_timing("1234")
 
     buy_mock.assert_not_called()
+
+
+def test_buy_called_on_three_price_decrease(mocker):
+    sell_mock = mocker.patch('auto_trading_system.AutoTradingSystem.sell')
+    ats = AutoTradingSystem()
+
+    ats.set_balance(100000)
+    ats.get_price = mocker.Mock(side_effect=[5500, 5400, 5300])
+    number_of_stock = 10
+    ats.sell_nice_timing("1234", number_of_stock)
+
+    sell_mock.assert_called_once()
+
+
+def test_buy_not_called_if_price_not_decreasing(mocker):
+    sell_mock = mocker.patch('auto_trading_system.AutoTradingSystem.sell')
+    ats = AutoTradingSystem()
+
+    ats.set_balance(100000)
+    ats.get_price = mocker.Mock(side_effect=[5500, 5400, 5550])  # 상승 아님
+    number_of_stock = 10
+    ats.sell_nice_timing("1234", number_of_stock)
+
+    sell_mock.assert_not_called()

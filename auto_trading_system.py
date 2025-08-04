@@ -43,7 +43,7 @@ class AutoTradingSystem:
         prior_stock_price = float('inf')
         for _ in range(3):
             current_stock_price = self.get_price(item)
-            if prior_stock_price <= current_stock_price(item):
+            if prior_stock_price <= current_stock_price:
                 return
             prior_stock_price = current_stock_price
             time.sleep(0.2)
