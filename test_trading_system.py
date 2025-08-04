@@ -72,8 +72,8 @@ def test_basic_function_sell(capsys, trading_system, mocker: MockerFixture):
 
 def test_basic_function_current_price(capsys, trading_system, mocker: MockerFixture):
     driver: KiwerDriver = mocker.Mock()
-    driver.current_price.return_value = 100
-    price = trading_system.current_price("1234")
+    driver.get_price.return_value = 100
+    price = trading_system.get_price("1234")
     assert price == 100
 
 
@@ -83,10 +83,9 @@ def test_buy_called_on_three_price_increase(mocker):
 
     ats.set_balance(100000)
     ats.get_price = mocker.Mock(side_effect=[5000, 5100, 5200])
-    ats.buyNiceTiming()
+    ats.buy_nice_timing("1234")
 
     buy_mock.assert_called_once()
-
 
 def test_buy_not_called_if_price_not_increasing(mocker):
     buy_mock = mocker.patch('auto_trading_system.AutoTradingSystem.buy')
@@ -94,6 +93,6 @@ def test_buy_not_called_if_price_not_increasing(mocker):
 
     ats.set_balance(100000)
     ats.get_price = mocker.Mock(side_effect=[5000, 4900, 4950])  # 상승 아님
-    ats.buyNiceTiming()
+    ats.buy_nice_timing("1234")
 
     buy_mock.assert_not_called()
