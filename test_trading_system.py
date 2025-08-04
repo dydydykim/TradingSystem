@@ -37,16 +37,21 @@ def test_basic_function_login_nemo(capsys):
     assert "test login success" in captured.out
 
 def test_basic_function_buy(capsys, trading_system):
+    trading_system = AutoTradingSystem()
+
     trading_system.buy("1234", 10000, 10)
     captured = capsys.readouterr()
     assert "1234 : Buy stock ( 10000 * 10 )" in captured.out
 
 def test_basic_function_sell(capsys, trading_system):
-    trading_system.buy("1234", 10000, 10)
+    trading_system = AutoTradingSystem()
+
     trading_system.sell("1234", 10000, 10)
     captured = capsys.readouterr()
     assert "1234 : Sell stock ( 10000 * 10 )" in captured.out
 
 def test_basic_function_current_price(capsys, trading_system):
+    trading_system = AutoTradingSystem()
+
     price = trading_system.current_price("1234")
     assert (price >=0 and price < 10000)
