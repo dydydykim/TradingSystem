@@ -6,13 +6,13 @@ class StockBrokerDriverInterface(ABC):
         pass
 
     @abstractmethod
-    def buy(self, code: str, price: float, qty: int):
+    def buy(self, code: str, price: int, qty: int) -> None:
         pass
 
     @abstractmethod
-    def sell(self, code: str, price: float, qty: int):
+    def sell(self, code: str, price: int, qty: int) -> None:
         pass
 
     @abstractmethod
-    def get_price(self, code: str) -> float:
+    def get_price(self, code: str) -> int:
         pass
