@@ -64,7 +64,7 @@ def test_basic_function_buy(capsys, trading_system, mocker: MockerFixture):
 
 def test_basic_function_sell(capsys, trading_system, mocker: MockerFixture):
     driver: KiwerDriver = mocker.Mock()
-    driver.sell.side_effect = mocker_buy
+    driver.sell.side_effect = mocker_sell
 
     trading_system.select_stock_broker("Kiwer", driver)
 
