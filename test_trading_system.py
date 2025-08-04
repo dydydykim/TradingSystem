@@ -5,6 +5,18 @@ from kiwer_driver import KiwerDriver
 from nemo_driver import NemoDriver
 
 
+def mocker_login(id):
+    print(id + ' login success')
+
+
+def mocker_buy():
+    print("1234 : Buy stock ( 10000 * 10 )")
+
+
+def mocker_sell():
+    print("1234 : Sell stock ( 10000 * 10 )")
+
+
 @pytest.fixture
 def trading_system():
     trading_system = AutoTradingSystem()
@@ -21,13 +33,9 @@ def test_basic_function_select_broker(trading_system):
     assert trading_system.get_stock_broker() == "Nemo"
 
 
-def driver_login(id):
-    print(id + ' login success')
-
-
 def test_basic_function_login_kiwer(capsys, trading_system, mocker: MockerFixture):
     driver: KiwerDriver = mocker.Mock()
-    driver.login.side_effect = driver_login
+    driver.login.side_effect = mocker_login
     trading_system.select_stock_broker("Kiwer")
     trading_system.login("test", "1234")
     captured = capsys.readouterr()
@@ -36,18 +44,11 @@ def test_basic_function_login_kiwer(capsys, trading_system, mocker: MockerFixtur
 
 def test_basic_function_login_nemo(capsys, trading_system, mocker: MockerFixture):
     driver: NemoDriver = mocker.Mock()
-    driver.login.side_effect = driver_login
+    driver.login.side_effect = mocker_login
     trading_system.select_stock_broker("Nemo")
     trading_system.login("test", "1234")
     captured = capsys.readouterr()
     assert "test login success" in captured.out
-
-
-def mocker_buy():
-    print("1234 : Buy stock ( 10000 * 10 )")
-
-def mocker_sell():
-    print("1234 : Sell stock ( 10000 * 10 )")
 
 
 def test_basic_function_buy(capsys, trading_system, mocker: MockerFixture):
